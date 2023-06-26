@@ -21,9 +21,6 @@ public class Event {
     @Column(name = "rest_quantity")
     private int restQuantity;
 
-    @Version
-    private int version;
-
     public static Event createEvent(String name, int quantity) {
         Event event = new Event();
 
