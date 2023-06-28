@@ -36,3 +36,6 @@ logging:
   level:
     org:
       hibernate: info
+
+redis:
+  address: redis://localhost:6379
