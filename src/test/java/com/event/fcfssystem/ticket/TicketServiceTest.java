@@ -24,8 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles(value = {"test"})
 public class TicketServiceTest {
 
-    public static final int THREADS_NUM = 5;
-    public static final int QUANTITY = 1;
+    public static final int THREADS_NUM = 10;
+    public static final int QUANTITY = 10;
 
     private final TicketService ticketService;
     private final EventRepository eventRepository;
@@ -61,7 +61,7 @@ public class TicketServiceTest {
     }
 
     @Test
-    @DisplayName("5명의 유저가 티켓 수량이 1개 발급을 요청하고 1명만 GET 해야한다.")
+    @DisplayName("10명의 유저가 티켓 10개 발급을 요청하고 10명만 GET 해야한다.")
     void testSaveTicket() throws InterruptedException {
         count = (int) customerRepository.count();
         CountDownLatch latch = new CountDownLatch(THREADS_NUM);

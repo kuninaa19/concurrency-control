@@ -1,5 +1,6 @@
 package com.event.fcfssystem.ticket;
 
+import com.event.fcfssystem.aop.DistributedLock;
 import com.event.fcfssystem.customer.CustomerRepository;
 import com.event.fcfssystem.event.EventRepository;
 import com.event.fcfssystem.model.Customer;
@@ -33,10 +34,11 @@ public class TicketService {
         return FindTicketResponseDto.of(aTicket);
     }
 
+    @DistributedLock(value = "#createTicketRequestDto.getEventId()")
     @Transactional(timeout = 5, rollbackFor = InterruptedException.class)
     public CreateTicketResponseDto save(CreateTicketRequestDto createTicketRequestDto) {
         Customer customer = customerRepository.findById(createTicketRequestDto.getCustomerId()).orElseThrow(IllegalArgumentException::new);
-        Event event  = eventRepository.findByIdWithLock(createTicketRequestDto.getEventId()).orElseThrow(IllegalArgumentException::new);
+        Event event = eventRepository.findById(createTicketRequestDto.getEventId()).orElseThrow(IllegalArgumentException::new);
 
         Ticket aTicket = Ticket.createTicket(customer, event);
         Ticket ticket = this.ticketRepository.save(aTicket);
